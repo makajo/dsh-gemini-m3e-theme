@@ -1,0 +1,5 @@
+# Gemini M3 Expressive theme. Removing this row disables the browser theme
+# contribution without touching Harness core rows.
+- insert:
+    - id: gemini-m3e-theme-service
+      name: dsh-gemini-m3e-theme

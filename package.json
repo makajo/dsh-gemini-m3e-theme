@@ -1,0 +1,36 @@
+{
+  "name": "dsh-gemini-m3e-theme",
+  "version": "0.1.0",
+  "description": "Gemini-style Material 3 Expressive theme for DeepSeek Harness Web (persistent bundle).",
+  "type": "module",
+  "main": "lib/service-plugin.js",
+  "exports": {
+    ".": "./lib/service-plugin.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "scripts",
+    "cordis.patch.yml"
+  ],
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "theme",
+    "material-3",
+    "gemini"
+  ],
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": []
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT"
+}
