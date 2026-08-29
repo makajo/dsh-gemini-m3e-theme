@@ -1,61 +1,58 @@
 # dsh-gemini-m3e-theme
 
-A **Google Gemini–style Material 3 Expressive theme** for the
-[DeepSeek Harness](https://github.com/deepseek-ai) Web UI, shipped as a
-persistent **client bundle** plugin.
+一个为 [DeepSeek Harness](https://github.com/deepseek-ai) Web UI 打造的
+**Google Gemini 风格 Material 3 Expressive 主题**，以**持久化 client bundle 插件**
+的形式交付。
 
-It restyles the whole web surface toward Gemini's "luminous" look — palette,
-typography, shapes, glow, motion and pointer interactions — without touching a
-single line of Harness product code. Everything rides the official extension
-points, so it installs cleanly, survives restarts, and uninstalls with no trace.
+它把整个 Web 界面改造成 Gemini 的 "luminous" 观感——配色、字体、形状、光晕、
+动效与指针交互——**不改动一行 Harness 产品源码**。所有效果都走官方扩展点，
+安装干净、重启不丢、卸载无痕。
+
+> 本仓库 README 默认使用中文。English version: [README.en.md](README.en.md)
 
 ---
 
-## Features
+## 功能
 
-| System | What it does |
+| 系统 | 内容 |
 |---|---|
-| **Palette** | 71 dual-tone tokens (light/dark) matching Gemini's `luminous` surface/container/on-surface/primary values; borders are tonal, not drawn |
-| **Typography** | Google Sans Text → Google Sans → Roboto → system fallback; Google Sans Mono for code; M3E markdown hierarchy (headings at 400 weight, body line-height 1.5) |
-| **Shape** | 40px composer, 40px user bubble, 28px menus/panels with 20px concentric items, 999px pill buttons/triggers, 28px dialogs, 16px tool blocks |
-| **Glow & motion** | Luminous radial hero glow; menu-in / dialog-in / staggered rise animations on the M3E emphasized curve `cubic-bezier(.05,.7,.1,1)` |
-| **Interactions** | Precise point ripple (button-pill & menu scoped), smooth width+height pane transitions via `interpolate-size`, edge-fade + fade-in scrollbars |
-| **Toggle** | A floating "Gemini 配色 / 默认配色" pill in `shell.overlay` switches the palette layer on/off while keeping fonts/shapes |
+| **配色** | 71 个双色令牌（亮/暗），对齐 Gemini `luminous` 的 surface/container/on-surface/primary 色值；边框靠底色差分隔，不画描边线 |
+| **字体** | Google Sans Text → Google Sans → Roboto → 系统回退栈；代码用 Google Sans Mono；M3E markdown 层级（标题 400 细体、正文行高 1.5） |
+| **形状** | composer 40px、用户气泡 40px、菜单/面板 28px + 20px 同心选项、按钮/触发器 999px 药丸、对话框 28px、工具块 16px |
+| **光晕 & 动效** | 英雄区 luminous radial 光晕；菜单弹入 / 对话框进入 / 错峰浮起，统一 M3E emphasized 曲线 `cubic-bezier(.05,.7,.1,1)` |
+| **交互** | 精确点击波纹（按钮药丸 & 菜单内）、`interpolate-size` 宽高自适应过渡、滚动条边缘渐隐 + 淡入 |
+| **浮钮** | 右下角 "Gemini 配色 / 默认配色" 胶囊（`shell.overlay`），一键切换配色层，字体/形状恒定保留 |
 
 ---
 
-## How it works
+## 实现原理
 
-The bundle uses three official Harness extension channels:
+bundle 通过 Harness 的三条官方扩展通道工作：
 
-1. **Theme tokens** — `ctx.theme.overrideTokens(source, tokens)` overrides the
-   `--dsw-*` CSS variables (colors, font stacks, markdown type ramp).
-2. **Slot UI** — `ctx.slots.register` injects the floating toggle into
-   `shell.overlay`.
-3. **Own styles + DOM JS** — `installStyles()` injects one `<style>` tag
-   (shape/motion/glow overrides, matched against product CSS-module class-hash
-   fragments), and `installInteractions()` drives ripple, stagger, scroll-fade
-   and scrollbar fade-in in the real browser DOM.
+1. **主题令牌** — `ctx.theme.overrideTokens(source, tokens)` 覆盖 `--dsw-*`
+   CSS 变量（配色、字体栈、markdown 字阶）。
+2. **Slot UI** — `ctx.slots.register` 把浮钮注入 `shell.overlay`。
+3. **自有样式 + DOM JS** — `installStyles()` 注入一个 `<style>` 标签
+   （形状/动效/光晕覆盖，靠产品 CSS-module 类哈希片段匹配），
+   `installInteractions()` 在真实浏览器 DOM 里驱动波纹、错峰、滚动渐隐与滚动条淡入。
 
-> Product-class selectors are the only part that depends on Harness internals.
-> See **Caveats** below.
+> 唯一依赖 Harness 内部结构的是产品类选择器，见下方 **注意事项**。
 
 ---
 
-## Install
+## 安装
 
-The theme is a **web-profile bundle**. With `DSH_HOME` set (default
-`~/.dsh` on Linux/macOS, `C:\Users\<you>\.dsh` on Windows):
+主题是一个 **web-profile bundle**。设 `DSH_HOME`（Linux/macOS 默认 `~/.dsh`，
+Windows 默认 `C:\Users\<你>\.dsh`）：
 
-1. Copy this package into the web profile's `packages/`:
+1. 把本包复制到 web profile 的 `packages/`：
 
    ```bash
    mkdir -p "$DSH_HOME/profiles/web/packages"
    cp -r dsh-gemini-m3e-theme "$DSH_HOME/profiles/web/packages/dsh-gemini-m3e-theme"
    ```
 
-2. Register it in `$DSH_HOME/profiles/web/package.json` (create the file if the
-   profile has no package.json yet):
+2. 在 `$DSH_HOME/profiles/web/package.json` 里注册（若 profile 尚无此文件则新建）：
 
    ```jsonc
    {
@@ -70,22 +67,20 @@ The theme is a **web-profile bundle**. With `DSH_HOME` set (default
    }
    ```
 
-3. Install the dependency and restart the web deployment:
+3. 安装依赖并重启 web 部署：
 
    ```bash
    cd "$DSH_HOME/profiles/web"
-   pnpm install        # or npm/yarn install
-   dsh web             # restart; the theme loads on the next page refresh
+   pnpm install        # 或 npm / yarn install
+   dsh web             # 重启；下次刷新页面时主题加载
    ```
 
-4. Hard-refresh the web UI (**Ctrl+F5**). You should see the Gemini palette, the
-   floating toggle at the bottom-right, and the restyled menus.
+4. 硬刷新 Web UI（**Ctrl+F5**）。应能看到 Gemini 配色、右下角浮钮，以及改版后的菜单。
 
-### Live-edit shortcut (Windows junction)
+### 实时改源码技巧（Windows 目录联接）
 
-`pnpm` copies `file:` deps instead of linking them, so edits to `packages/`
-would not propagate to `node_modules`. On Windows you can replace the installed
-copy with a directory junction so source edits apply directly:
+`pnpm` 对 `file:` 依赖是**拷贝**而非链接，改 `packages/` 源文件不会同步到
+`node_modules`。Windows 上可把已安装的副本换成目录联接（Junction），源文件改动即可直接生效：
 
 ```powershell
 Remove-Item "$env:DSH_HOME\profiles\web\node_modules\dsh-gemini-m3e-theme" -Recurse -Force
@@ -93,76 +88,67 @@ New-Item -ItemType Junction -Path "$env:DSH_HOME\profiles\web\node_modules\dsh-g
          -Target "$env:DSH_HOME\profiles\web\packages\dsh-gemini-m3e-theme"
 ```
 
-On macOS/Linux a symlink achieves the same effect.
+macOS/Linux 用软链接（symlink）效果相同。
 
 ---
 
-## Develop
+## 开发
 
-- **`src/client.js`** — readable ESM source. Edit this.
-  - palette → `buildColorTokens()`
-  - fonts/tool radii → `buildBaseTokens()`
-  - type ramp → `buildTypographyTokens()`
-  - shape/motion/menus → the `CSS_TEXT` array
-  - interactions → `installInteractions()`
-- **`lib/client.js`** — what the browser actually loads (hand-written
-  `ModuleLoader`-format equivalent of `src`). **Keep it in sync** with `src`
-  after every change.
-- **`scripts/build-client.mjs`** — optional esbuild rebundling script, for
-  environments where esbuild can run (a sandboxed shell that cannot spawn
-  esbuild is why `lib` is hand-maintained).
+- **`src/client.js`** — 可读的 ESM 源码，改这里。
+  - 配色 → `buildColorTokens()`
+  - 字体/工具圆角 → `buildBaseTokens()`
+  - 字阶 → `buildTypographyTokens()`
+  - 形状/动效/菜单 → `CSS_TEXT` 数组
+  - 交互 → `installInteractions()`
+- **`lib/client.js`** — 浏览器实际加载的产物（手写的 `ModuleLoader` 格式，与
+  `src` 等价）。**每次改完必须与 `src` 保持同步**。
+- **`scripts/build-client.mjs`** — 可选 esbuild 重打包脚本，供能跑 esbuild 的
+  环境使用（沙箱 shell 无法 spawn esbuild，故 `lib` 长期手工维护）。
 
-After editing, restart `dsh web` and hard-refresh. The bundle `rev` (a content
-hash of `lib/client.js`) changes automatically, so the browser fetches the new
-build.
+改完重启 `dsh web` 并硬刷新。bundle 的 `rev`（`lib/client.js` 的内容哈希）会自动变化，浏览器会拉取新版本。
 
 ---
 
-## Uninstall
+## 卸载
 
-1. In `$DSH_HOME/profiles/web/package.json`, remove the
-   `"dsh-gemini-m3e-theme"` entry from both `dependencies` and
-   `dsh.profile.bundles`.
+1. 在 `$DSH_HOME/profiles/web/package.json` 里，同时删除 `dependencies` 与
+   `dsh.profile.bundles` 中的 `"dsh-gemini-m3e-theme"`。
 2. `cd "$DSH_HOME/profiles/web" && pnpm install`
-3. Delete `$DSH_HOME/profiles/web/packages/dsh-gemini-m3e-theme/`.
-4. Restart `dsh web`.
+3. 删除 `$DSH_HOME/profiles/web/packages/dsh-gemini-m3e-theme/`。
+4. 重启 `dsh web`。
 
 ---
 
-## File map
+## 目录结构
 
 ```
 dsh-gemini-m3e-theme/
 ├── package.json           # dsh.client (web) + dsh.bundle.patch + exports
-├── cordis.patch.yml       # inserts the bundle into the host tree
+├── cordis.patch.yml       # 把 bundle 挂进 host 树的 insert 行
 ├── lib/
-│   ├── client.js          # browser bundle (ModuleLoader format) — live artifact
-│   └── service-plugin.js  # host no-op plugin (bundle mount point)
+│   ├── client.js          # 浏览器端 bundle（ModuleLoader 格式）——实际加载产物
+│   └── service-plugin.js  # host 空插件（bundle 挂载点）
 ├── src/
-│   └── client.js          # ESM source (edit here)
+│   └── client.js          # ESM 源码（在这里改）
 ├── scripts/
-│   └── build-client.mjs   # optional esbuild rebuild script
+│   └── build-client.mjs   # 可选 esbuild 重打包脚本
 └── README.md
 ```
 
 ---
 
-## Caveats
+## 注意事项
 
-- **CSS-module class hashes shift on upstream rebuilds.** The theme targets
-  product elements by class-hash substrings (e.g. `_7KE1Ra_menu`,
-  `_list_19372`). When Harness ships a rebuilt frontend, hashes — and in some
-  versions the *format* (`hash_name` → `_name_hash_index`) — change, and
-  affected rules silently stop matching. Re-grep the built CSS for the semantic
-  names and update the selectors in `CSS_TEXT`.
-- **Windows scrollbars occupy layout width.** The theme reserves a stable
-  scrollbar gutter for scrollable menus so the thumb can fade in without a
-  width jump.
-- **Sandboxed shells may not run esbuild.** That is intentional here; `lib/`
-  is the hand-written, esbuild-equivalent artifact.
+- **CSS-module 类哈希会随上游重构建而变化。** 主题靠类哈希片段定位产品元素
+  （如 `_7KE1Ra_menu`、`_list_19372`）。Harness 前端重构建后哈希——某些版本连
+  *格式* 都会变（`hash_name` → `_name_hash_index`）——相关规则会静默失效。
+  需重新 grep 构建产物 CSS 里的语义名，并更新 `CSS_TEXT` 中的选择器。
+- **Windows 滚动条占布局宽度。** 主题为可滚动菜单预留稳定的滚动条槽位
+  （`scrollbar-gutter`），使 thumb 淡入时面板宽度不跳变。
+- **沙箱 shell 可能无法运行 esbuild。** 这是本仓库 `lib/` 为手工维护等价产物的原因。
 
 ---
 
-## License
+## 许可证
 
 [MIT](LICENSE)
