@@ -1,12 +1,10 @@
-import React from 'react'
-
 const CSS_ID = 'dsh-gemini-m3e-theme/client'
 
 // =============================================================================
 // Gemini M3 Expressive theme — persistent browser bundle (full feature set).
-// Tokens via ctx.theme.overrideTokens; CSS injected once; floating toggle in
-// shell.overlay; JS interactions (point ripple + pane height FLIP) need the
-// real browser DOM, so they live here rather than in a sandboxed dynamic pkg.
+// Tokens via ctx.theme.overrideTokens; CSS injected once; JS interactions
+// (point ripple + stagger/scrollfade scheduling) need the real browser DOM,
+// so they live here rather than in a sandboxed dynamic pkg.
 // =============================================================================
 
 const CSS_TEXT = [
@@ -16,8 +14,8 @@ const CSS_TEXT = [
   "body[data-ds-dark-theme] [class*=\"wSkVaW_heroGlow\"]{background:radial-gradient(ellipse 100% 100% at center 8%,#131314 0,#14204f 50%)}",
   "body [class*=\"pXSMma_headline\"]{font-size:clamp(30px,3.4vw,44px);font-weight:400;letter-spacing:.2px}",
   /* ---- B. composer ---- */
-  "body [class*=\"uV2eYG_card\"]{border-radius:40px;border:none !important;box-shadow:none !important;padding-top:14px;gap:16px}",
-  "body[data-ds-dark-theme] [class*=\"uV2eYG_card\"]{border:none !important;box-shadow:none !important}",
+  "body [class*=\"uV2eYG_card\"]{border-radius:40px;border:none !important;box-shadow:0 6px 24px -6px rgba(0,0,0,0.22), 0 2px 6px -2px rgba(0,0,0,0.1) !important;padding-top:14px;gap:16px}",
+  "body[data-ds-dark-theme] [class*=\"uV2eYG_card\"]{border:none !important}",
   "body [class*=\"uV2eYG_cardWorkspaceTrigger\"]:after{border-radius:40px}",
   "body [class*=\"uV2eYG_hero\"] [class*=\"uV2eYG_mirror\"], body [class*=\"uV2eYG_hero\"] [class*=\"uV2eYG_input\"]{min-height:64px}",
   "body [class*=\"uV2eYG_input\"],body [class*=\"uV2eYG_mirror\"],body [class*=\"uV2eYG_backdrop\"]{padding:6px 24px 0 24px !important}",
@@ -32,13 +30,13 @@ const CSS_TEXT = [
   "body [class*=\"YDXeBa_sessionRow\"],body [class*=\"YDXeBa_projectRow\"],body [class*=\"YDXeBa_searchResultRow\"]{border-radius:999px}",
   "body [class*=\"qDHVXG_sectionHeader\"]{border-radius:999px}",
   "body [class*=\"_button_kz6gm\"]{border-radius:999px}",
-  "body [class*=\"_dialog_15u5s\"]{border-radius:28px}",
+  "body [class*=\"_dialog_15u5s\"]{border-radius:32px;border:none !important;box-shadow:0 6px 24px -6px rgba(0,0,0,0.22), 0 2px 6px -2px rgba(0,0,0,0.1) !important}",
   "body [class*=\"Md3f7G_callRow\"]{border-radius:12px}",
   "body [class*=\"markdown_1r4m5\"] :not(pre)>code{border-radius:8px}",
   /* ---- E. menu system: 28px panels + 20px concentric items ---- */
-  "body [class*=\"_7KE1Ra_menu\"], body [class*=\"mufS8W_card\"], body [class*=\"_3e4SsG_menu\"]{border-radius:28px !important;padding:8px !important;border:none !important;background:var(--dsw-specific-menu) !important;box-shadow:0 8px 32px -4px rgba(0,0,0,0.45), 0 2px 8px -2px rgba(0,0,0,0.2) !important;gap:4px !important;overflow:hidden !important;interpolate-size:allow-keywords !important;transition:height .4s cubic-bezier(.05,.7,.1,1),width .4s cubic-bezier(.05,.7,.1,1) !important}",
-  "body [class*=\"_list_19372\"]:not([class*=\"_compactList_19372\"]), body [class*=\"_submenu_19372\"]:not([class*=\"_compactList_19372\"]){border-radius:28px !important;padding:8px !important;border:none !important;background:var(--dsw-specific-menu) !important;box-shadow:0 8px 32px -4px rgba(0,0,0,0.45), 0 2px 8px -2px rgba(0,0,0,0.2) !important;gap:4px !important}",
-  "body [class*=\"JObwrW_panel\"]{border-radius:28px !important;padding:16px !important;border:none !important;background:var(--dsw-specific-menu) !important;box-shadow:0 8px 32px -4px rgba(0,0,0,0.45), 0 2px 8px -2px rgba(0,0,0,0.2) !important}",
+  "body [class*=\"_7KE1Ra_menu\"], body [class*=\"mufS8W_card\"], body [class*=\"_3e4SsG_menu\"]{border-radius:28px !important;padding:8px !important;border:none !important;background:var(--dsw-specific-menu) !important;box-shadow:0 6px 24px -6px rgba(0,0,0,0.22), 0 2px 6px -2px rgba(0,0,0,0.1) !important;gap:4px !important;overflow:hidden !important;interpolate-size:allow-keywords !important;transition:height .4s cubic-bezier(.05,.7,.1,1),width .4s cubic-bezier(.05,.7,.1,1) !important}",
+  "body [class*=\"_list_19372\"]:not([class*=\"_compactList_19372\"]), body [class*=\"_submenu_19372\"]:not([class*=\"_compactList_19372\"]){border-radius:28px !important;padding:8px !important;border:none !important;background:var(--dsw-specific-menu) !important;box-shadow:0 6px 24px -6px rgba(0,0,0,0.22), 0 2px 6px -2px rgba(0,0,0,0.1) !important;gap:4px !important}",
+  "body [class*=\"JObwrW_panel\"]{border-radius:28px !important;padding:16px !important;border:none !important;background:var(--dsw-specific-menu) !important;box-shadow:0 6px 24px -6px rgba(0,0,0,0.22), 0 2px 6px -2px rgba(0,0,0,0.1) !important}",
   "body [class*=\"_7KE1Ra_groups\"]{overflow-x:hidden !important;overflow-y:auto !important;padding:0 4px 6px 2px !important;display:flex !important;flex-direction:column !important;gap:4px !important}",
   /* edge fades: bottom when scrollable, top only once scrolled (JS-toggled);
    * stable gutter reserves the 5px scrollbar slot from frame one, so the
@@ -58,6 +56,8 @@ const CSS_TEXT = [
   "body [class~=\"mufS8W_detail\"]{flex:1 1 auto !important;min-width:0 !important;font-size:13px !important}",
   "body [class*=\"mufS8W_search\"]{border-radius:16px !important;border:none !important;background:var(--dsw-alias-bg-layer-2) !important;padding:8px 14px !important}",
   "body [class*=\"_3e4SsG_viewport\"], body [class*=\"mufS8W_viewport\"], body [class*=\"_viewport_19372\"]{display:flex !important;flex-direction:column !important;gap:4px !important}",
+  /* mirror _7KE1Ra_groups padding: right breathing room so item pills never crowd the scrollbar */
+  "body [class*=\"_3e4SsG_viewport\"], body [class*=\"mufS8W_viewport\"]{padding:0 4px 6px 2px !important}",
   "body [class~=\"_3e4SsG_item\"]{box-sizing:border-box !important;border-radius:20px !important;min-height:44px !important;padding:8px 16px !important}",
   "body [class~=\"_3e4SsG_itemName\"]{flex:0 0 96px !important;max-width:none !important;font-weight:500 !important;color:var(--dsw-alias-label-primary) !important}",
   "body [class~=\"_3e4SsG_itemDescription\"]{flex:1 1 auto !important;font-size:13px !important}",
@@ -113,7 +113,7 @@ const CSS_TEXT = [
   "body [class*=\"mufS8W_viewport\"] > [class~=\"mufS8W_row\"]:nth-child(5), body [class*=\"_3e4SsG_viewport\"] > [class~=\"_3e4SsG_item\"]:nth-child(5){animation-delay:.16s}",
   "body [class*=\"mufS8W_viewport\"] > [class~=\"mufS8W_row\"]:nth-child(n+6), body [class*=\"_3e4SsG_viewport\"] > [class~=\"_3e4SsG_item\"]:nth-child(n+6){animation-delay:.20s}",
   /* ---- I. settings surface: 28px panel / 999px trigger / 20px cells ---- */
-  "body [class*=\"VOzbGW_panel\"]{border-radius:28px !important}",
+  "body [class*=\"VOzbGW_panel\"]{border-radius:32px !important}",
   "body [class*=\"VOzbGW_panel\"]{animation:gm3e-dialog-in .3s cubic-bezier(.05,.7,.1,1) both}",
   "body [class*=\"VOzbGW_trigger\"]{border-radius:999px !important}",
   "body [class*=\"VOzbGW_navCell\"]{border-radius:20px !important}",
@@ -125,16 +125,7 @@ const CSS_TEXT = [
   "body [class*=\"_8HJdBW_themeCube\"][class*=\"_8HJdBW_selected\"]{background:var(--dsw-alias-state-business-tertiary) !important;border:none !important;color:var(--dsw-alias-label-primary-bluish) !important}",
   /* ---- G. point ripple (driven by JS below) ---- */
   '.gm3e-ripple{position:absolute;border-radius:50%;transform:scale(0);opacity:.9;pointer-events:none;z-index:5;transition:transform .55s cubic-bezier(.2,0,0,1),opacity .55s cubic-bezier(.2,0,0,1)}',
-  '.gm3e-ripple.gm3e-ripple-run{transform:scale(1);opacity:0}',
-  /* ---- H. floating toggle ---- */
-  '.gm3e-fab{position:fixed;right:20px;bottom:20px;z-index:60;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 14px;border-radius:999px;border:1px solid #dadce0;background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary);font-family:var(--dsw-font-family);font-size:13.5px;font-weight:500;letter-spacing:.1px;cursor:pointer;pointer-events:auto;box-shadow:var(--dsw-shadow-lv2);transition:background-color .28s cubic-bezier(.05,.7,.1,1),color .28s cubic-bezier(.05,.7,.1,1),border-color .28s cubic-bezier(.05,.7,.1,1),transform .18s cubic-bezier(.05,.7,.1,1)}',
-  'body[data-ds-dark-theme] .gm3e-fab{border-color:#444746}',
-  '.gm3e-fab:hover{background:var(--dsw-alias-interactive-bg-hover-solid);color:var(--dsw-alias-label-primary)}',
-  '.gm3e-fab:active{transform:scale(.96)}',
-  '.gm3e-fab:focus-visible{outline:2px solid var(--dsw-alias-brand-primary);outline-offset:2px}',
-  '.gm3e-fab .gm3e-dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--dsw-alias-state-business-primary);transition:background-color .28s cubic-bezier(.05,.7,.1,1)}',
-  '.gm3e-fab[data-on=false]{opacity:.82}',
-  '.gm3e-fab[data-on=false] .gm3e-dot{background:var(--dsw-alias-label-tertiary)}'
+  '.gm3e-ripple.gm3e-ripple-run{transform:scale(1);opacity:0}'
 ].join('\n')
 
 function buildColorTokens() {
@@ -422,44 +413,14 @@ function installInteractions() {
   }
 }
 
-export const inject = ['theme', 'slots']
+export const inject = ['theme']
 
 export function apply(ctx) {
   installStyles()
   const cleanupInteractions = installInteractions()
   if (cleanupInteractions) ctx.effect(() => cleanupInteractions, 'dsh-gemini-m3e-theme: interactions')
 
-  const COLORS = buildColorTokens()
-  const KEEP = Object.assign({}, buildBaseTokens(), buildTypographyTokens())
-  const FULL = Object.assign({}, COLORS, KEEP)
-
-  let on = true
-  let activeLayer = ctx.theme.overrideTokens('dsh-gemini-m3e-theme', FULL)
+  const FULL = Object.assign({}, buildColorTokens(), buildBaseTokens(), buildTypographyTokens())
+  const activeLayer = ctx.theme.overrideTokens('dsh-gemini-m3e-theme', FULL)
   ctx.effect(() => () => { if (activeLayer) activeLayer() }, 'dsh-gemini-m3e-theme: revert token layer')
-
-  function GeminiFab() {
-    const state = React.useState(true)
-    const setOn = state[1]
-    const click = () => {
-      on = !on
-      setOn(on)
-      activeLayer = ctx.theme.overrideTokens('dsh-gemini-m3e-theme', on ? FULL : KEEP)
-    }
-    return React.createElement('button', {
-      className: 'gm3e-fab',
-      'data-on': String(on),
-      title: on ? 'Gemini 配色：开（点击还原默认配色）' : 'Gemini 配色：关（点击启用）',
-      onClick: click
-    }, [
-      React.createElement('span', { key: 'dot', className: 'gm3e-dot' }),
-      React.createElement('span', { key: 'text' }, on ? 'Gemini 配色' : '默认配色')
-    ])
-  }
-
-  ctx.slots.inject('shell.overlay', () => ctx.slots.register({
-    name: 'shell.overlay',
-    id: 'gemini-m3e-theme-toggle',
-    order: 50,
-    label: 'Gemini 配色开关'
-  }, GeminiFab))
 }
