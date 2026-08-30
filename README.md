@@ -18,21 +18,20 @@
 |---|---|
 | **配色** | 71 个双色令牌（亮/暗），对齐 Gemini `luminous` 的 surface/container/on-surface/primary 色值；边框靠底色差分隔，不画描边线 |
 | **字体** | Google Sans Text → Google Sans → Roboto → 系统回退栈；代码用 Google Sans Mono；M3E markdown 层级（标题 400 细体、正文行高 1.5） |
-| **形状** | composer 40px、用户气泡 40px、菜单/面板 28px + 20px 同心选项、按钮/触发器 999px 药丸、对话框 28px、工具块 16px |
+| **形状** | composer 40px、用户气泡 40px、菜单 28px + 20px 同心选项、按钮/触发器 999px 药丸、对话框/设置面板 32px、工具块 16px |
 | **光晕 & 动效** | 英雄区 luminous radial 光晕；菜单弹入 / 对话框进入 / 错峰浮起，统一 M3E emphasized 曲线 `cubic-bezier(.05,.7,.1,1)` |
 | **交互** | 精确点击波纹（按钮药丸 & 菜单内）、`interpolate-size` 宽高自适应过渡、滚动条边缘渐隐 + 淡入 |
-| **浮钮** | 右下角 "Gemini 配色 / 默认配色" 胶囊（`shell.overlay`），一键切换配色层，字体/形状恒定保留 |
+| **阴影** | 菜单/弹窗/Composer 浮层共用同一套软阴影规格，白底不厚重、黑底有层次；弹窗去除描边线圈 |
 
 ---
 
 ## 实现原理
 
-bundle 通过 Harness 的三条官方扩展通道工作：
+bundle 通过 Harness 的两条官方扩展通道工作：
 
 1. **主题令牌** — `ctx.theme.overrideTokens(source, tokens)` 覆盖 `--dsw-*`
-   CSS 变量（配色、字体栈、markdown 字阶）。
-2. **Slot UI** — `ctx.slots.register` 把浮钮注入 `shell.overlay`。
-3. **自有样式 + DOM JS** — `installStyles()` 注入一个 `<style>` 标签
+   CSS 变量（配色、字体栈、markdown 字阶），Gemini 配色常驻生效。
+2. **自有样式 + DOM JS** — `installStyles()` 注入一个 `<style>` 标签
    （形状/动效/光晕覆盖，靠产品 CSS-module 类哈希片段匹配），
    `installInteractions()` 在真实浏览器 DOM 里驱动波纹、错峰、滚动渐隐与滚动条淡入。
 
@@ -75,7 +74,7 @@ Windows 默认 `C:\Users\<你>\.dsh`）：
    dsh web             # 重启；下次刷新页面时主题加载
    ```
 
-4. 硬刷新 Web UI（**Ctrl+F5**）。应能看到 Gemini 配色、右下角浮钮，以及改版后的菜单。
+4. 硬刷新 Web UI（**Ctrl+F5**）。应能看到 Gemini 配色与改版后的菜单、气泡和输入卡片。
 
 ### 实时改源码技巧（Windows 目录联接）
 

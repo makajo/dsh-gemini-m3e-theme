@@ -19,22 +19,21 @@ points, so it installs cleanly, survives restarts, and uninstalls with no trace.
 |---|---|
 | **Palette** | 71 dual-tone tokens (light/dark) matching Gemini's `luminous` surface/container/on-surface/primary values; borders are tonal, not drawn |
 | **Typography** | Google Sans Text → Google Sans → Roboto → system fallback; Google Sans Mono for code; M3E markdown hierarchy (headings at 400 weight, body line-height 1.5) |
-| **Shape** | 40px composer, 40px user bubble, 28px menus/panels with 20px concentric items, 999px pill buttons/triggers, 28px dialogs, 16px tool blocks |
+| **Shape** | 40px composer, 40px user bubble, 28px menus with 20px concentric items, 999px pill buttons/triggers, 32px dialogs/settings panel, 16px tool blocks |
 | **Glow & motion** | Luminous radial hero glow; menu-in / dialog-in / staggered rise animations on the M3E emphasized curve `cubic-bezier(.05,.7,.1,1)` |
 | **Interactions** | Precise point ripple (button-pill & menu scoped), smooth width+height pane transitions via `interpolate-size`, edge-fade + fade-in scrollbars |
-| **Toggle** | A floating "Gemini 配色 / 默认配色" pill in `shell.overlay` switches the palette layer on/off while keeping fonts/shapes |
+| **Elevation** | One soft-shadow spec shared by menus, dialogs and the composer — light on white, present on dark; dialogs drop their border ring |
 
 ---
 
 ## How it works
 
-The bundle uses three official Harness extension channels:
+The bundle uses two official Harness extension channels:
 
 1. **Theme tokens** — `ctx.theme.overrideTokens(source, tokens)` overrides the
-   `--dsw-*` CSS variables (colors, font stacks, markdown type ramp).
-2. **Slot UI** — `ctx.slots.register` injects the floating toggle into
-   `shell.overlay`.
-3. **Own styles + DOM JS** — `installStyles()` injects one `<style>` tag
+   `--dsw-*` CSS variables (colors, font stacks, markdown type ramp); the
+   Gemini palette is always on.
+2. **Own styles + DOM JS** — `installStyles()` injects one `<style>` tag
    (shape/motion/glow overrides, matched against product CSS-module class-hash
    fragments), and `installInteractions()` drives ripple, stagger, scroll-fade
    and scrollbar fade-in in the real browser DOM.
@@ -80,8 +79,8 @@ The theme is a **web-profile bundle**. With `DSH_HOME` set (default
    dsh web             # restart; the theme loads on the next page refresh
    ```
 
-4. Hard-refresh the web UI (**Ctrl+F5**). You should see the Gemini palette, the
-   floating toggle at the bottom-right, and the restyled menus.
+4. Hard-refresh the web UI (**Ctrl+F5**). You should see the Gemini palette and
+   the restyled menus, bubbles and composer.
 
 ### Live-edit shortcut (Windows junction)
 
