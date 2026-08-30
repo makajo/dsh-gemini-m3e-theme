@@ -19,8 +19,6 @@
   <img src="docs/screenshots/dark.png" alt="暗色模式" width="48%">
 </p>
 
-<p align="center"><em>浅色 · Dark 自动切换，跟随系统主题</em></p>
-
 ---
 
 ## 功能
