@@ -100,18 +100,24 @@ On macOS/Linux a symlink achieves the same effect.
 
 ## Develop
 
-- **`src/client.js`** — readable ESM source. Edit this.
+- **`src/client.js`** — readable ESM source; the only file you ever edit by hand.
   - palette → `buildColorTokens()`
   - fonts/tool radii → `buildBaseTokens()`
   - type ramp → `buildTypographyTokens()`
-  - shape/motion/menus → the `CSS_TEXT` array
+  - shape/motion/menus → the `CSS_TEXT` array (`@key@` placeholders, expanded by `expand()`)
   - interactions → `installInteractions()`
-- **`lib/client.js`** — what the browser actually loads (hand-written
-  `ModuleLoader`-format equivalent of `src`). **Keep it in sync** with `src`
-  after every change.
-- **`scripts/build-client.mjs`** — optional esbuild rebundling script, for
-  environments where esbuild can run (a sandboxed shell that cannot spawn
-  esbuild is why `lib` is hand-maintained).
+  - **product class-hash anchors are registered once in the `T` map at the top** —
+    when an upstream rebuild shifts hashes, only T changes; every CSS rule and
+    JS selector follows. Same for the `SHADOW`/`EMPH`/`STD` value constants.
+- **`lib/client.js`** — what the browser actually loads, generated from `src`
+  by esbuild. **Never edit it by hand**; after changing `src` run:
+
+  ```bash
+  npm i            # first time: installs the esbuild devDependency
+  npm run build    # same as node scripts/build-client.mjs
+  ```
+- **`scripts/build-client.mjs`** — the esbuild bundling script (JS API, no
+  child processes).
 
 After editing, restart `dsh web` and hard-refresh. The bundle `rev` (a content
 hash of `lib/client.js`) changes automatically, so the browser fetches the new
@@ -142,7 +148,7 @@ dsh-gemini-m3e-theme/
 ├── src/
 │   └── client.js          # ESM source (edit here)
 ├── scripts/
-│   └── build-client.mjs   # optional esbuild rebuild script
+│   └── build-client.mjs   # esbuild bundling script (the single source of lib; npm run build)
 └── README.md
 ```
 
@@ -155,12 +161,14 @@ dsh-gemini-m3e-theme/
   `_list_19372`). When Harness ships a rebuilt frontend, hashes — and in some
   versions the *format* (`hash_name` → `_name_hash_index`) — change, and
   affected rules silently stop matching. Re-grep the built CSS for the semantic
-  names and update the selectors in `CSS_TEXT`.
+  names and update the matching values in the `T` registry at the top of
+  `src` — every CSS rule and JS selector follows.
 - **Windows scrollbars occupy layout width.** The theme reserves a stable
   scrollbar gutter for scrollable menus so the thumb can fade in without a
   width jump.
-- **Sandboxed shells may not run esbuild.** That is intentional here; `lib/`
-  is the hand-written, esbuild-equivalent artifact.
+- **Any node runtime can build.** The bundling script calls esbuild's JS API
+  (no child processes), so it works even in restricted shells; `lib/` is
+  committed as a build artifact — installing the package needs no build.
 
 ---
 

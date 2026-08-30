@@ -93,16 +93,22 @@ macOS/Linux 用软链接（symlink）效果相同。
 
 ## 开发
 
-- **`src/client.js`** — 可读的 ESM 源码，改这里。
+- **`src/client.js`** — 可读的 ESM 源码，唯一需要手改的文件。
   - 配色 → `buildColorTokens()`
   - 字体/工具圆角 → `buildBaseTokens()`
   - 字阶 → `buildTypographyTokens()`
-  - 形状/动效/菜单 → `CSS_TEXT` 数组
+  - 形状/动效/菜单 → `CSS_TEXT` 数组（`@key@` 占位符由 `expand()` 展开）
   - 交互 → `installInteractions()`
-- **`lib/client.js`** — 浏览器实际加载的产物（手写的 `ModuleLoader` 格式，与
-  `src` 等价）。**每次改完必须与 `src` 保持同步**。
-- **`scripts/build-client.mjs`** — 可选 esbuild 重打包脚本，供能跑 esbuild 的
-  环境使用（沙箱 shell 无法 spawn esbuild，故 `lib` 长期手工维护）。
+  - **产品类哈希锚点统一登记在文件顶部的 `T` 字典**——上游重构换哈希后只需改这里，
+    全部 CSS 规则与 JS 选择器自动跟随；`SHADOW`/`EMPH`/`STD` 值常量同理
+- **`lib/client.js`** — 浏览器实际加载的产物，由 esbuild 从 `src` 生成，
+  **不要手工编辑**。改完 `src` 运行：
+
+  ```bash
+  npm i            # 首次：安装 devDependency esbuild
+  npm run build    # 等价于 node scripts/build-client.mjs
+  ```
+- **`scripts/build-client.mjs`** — esbuild 打包脚本（走 JS API，不 spawn 子进程）。
 
 改完重启 `dsh web` 并硬刷新。bundle 的 `rev`（`lib/client.js` 的内容哈希）会自动变化，浏览器会拉取新版本。
 
@@ -130,7 +136,7 @@ dsh-gemini-m3e-theme/
 ├── src/
 │   └── client.js          # ESM 源码（在这里改）
 ├── scripts/
-│   └── build-client.mjs   # 可选 esbuild 重打包脚本
+│   └── build-client.mjs   # esbuild 构建脚本（lib 的唯一来源，npm run build）
 └── README.md
 ```
 
@@ -141,10 +147,12 @@ dsh-gemini-m3e-theme/
 - **CSS-module 类哈希会随上游重构建而变化。** 主题靠类哈希片段定位产品元素
   （如 `_7KE1Ra_menu`、`_list_19372`）。Harness 前端重构建后哈希——某些版本连
   *格式* 都会变（`hash_name` → `_name_hash_index`）——相关规则会静默失效。
-  需重新 grep 构建产物 CSS 里的语义名，并更新 `CSS_TEXT` 中的选择器。
+  需重新 grep 构建产物 CSS 里的语义名，并更新 `src` 顶部 `T` 字典中的对应值
+  （全部 CSS 规则与 JS 选择器自动跟随）。
 - **Windows 滚动条占布局宽度。** 主题为可滚动菜单预留稳定的滚动条槽位
   （`scrollbar-gutter`），使 thumb 淡入时面板宽度不跳变。
-- **沙箱 shell 可能无法运行 esbuild。** 这是本仓库 `lib/` 为手工维护等价产物的原因。
+- **构建环境只需能跑 node。** 打包脚本调用 esbuild 的 JS API（不 spawn 子进程），
+  在受限 shell 里也能工作；`lib/` 作为构建产物提交仓库，装包即用，无需构建。
 
 ---
 

@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Gemini-style Material 3 Expressive theme for DeepSeek Harness Web (persistent bundle).",
   "type": "module",
+  "scripts": {
+    "build": "node scripts/build-client.mjs"
+  },
   "main": "lib/service-plugin.js",
   "exports": {
     ".": "./lib/service-plugin.js",
@@ -32,5 +35,8 @@
       "patch": "./cordis.patch.yml"
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
 }
