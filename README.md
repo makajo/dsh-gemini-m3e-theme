@@ -12,6 +12,17 @@
 
 ---
 
+## 预览
+
+<p align="center">
+  <img src="docs/screenshots/light.png" alt="浅色模式" width="48%">
+  <img src="docs/screenshots/dark.png" alt="暗色模式" width="48%">
+</p>
+
+<p align="center"><em>浅色 · Dark 自动切换，跟随系统主题</em></p>
+
+---
+
 ## 功能
 
 | 系统 | 内容 |

@@ -13,6 +13,17 @@ points, so it installs cleanly, survives restarts, and uninstalls with no trace.
 
 ---
 
+## Preview
+
+<p align="center">
+  <img src="docs/screenshots/light.png" alt="Light theme" width="48%">
+  <img src="docs/screenshots/dark.png" alt="Dark theme" width="48%">
+</p>
+
+<p align="center"><em>Light · Dark — auto-switches with the system theme</em></p>
+
+---
+
 ## Features
 
 | System | What it does |
