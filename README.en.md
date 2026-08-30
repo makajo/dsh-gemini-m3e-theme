@@ -59,13 +59,6 @@ dsh web                                               # restart web
 Update: `dsh plugin update dsh-gemini-m3e-theme`; remove:
 `dsh plugin remove dsh-gemini-m3e-theme`.
 
-> **Mainland-China network**: direct GitHub access is often reset — point git at
-> a proxy (one-shot or persistent in `~/.gitconfig`):
-> ```bash
-> git -c http.proxy=http://127.0.0.1:7890 clone ...    # or
-> git config --global http.proxy http://127.0.0.1:7890
-> ```
-
 ### Offline / manual install (fallback)
 
 Without pnpm, or for full manual control, install the old way: place this

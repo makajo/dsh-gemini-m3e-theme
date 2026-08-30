@@ -53,13 +53,6 @@ dsh web                                               # 重启 web
 
 升级：`dsh plugin update dsh-gemini-m3e-theme`；卸载：`dsh plugin remove dsh-gemini-m3e-theme`。
 
-> **中国大陆网络**：直连 GitHub 常被重置，给 git 配一条代理即可（一次性或写进
-> `~/.gitconfig`）：
-> ```bash
-> git -c http.proxy=http://127.0.0.1:7890 clone ...    # 或在 gitconfig 里
-> git config --global http.proxy http://127.0.0.1:7890
-> ```
-
 ### 离线/手动安装（fallback）
 
 没有 pnpm 或想完全手动时，仍可按旧方式装配：把本包放进 profile 的
