@@ -45,48 +45,40 @@ The bundle uses two official Harness extension channels:
 
 ## Install
 
-The theme is a **web-profile bundle**. With `DSH_HOME` set (default
-`~/.dsh` on Linux/macOS, `C:\Users\<you>\.dsh` on Windows):
+The theme is a **web-profile bundle**, installed with DSH's built-in
+`dsh plugin` command (needs Node ≥ 20 and pnpm; it initializes the profile,
+installs the dependency, and **registers the package in the
+`dsh.profile.bundles` layer list automatically** — no JSON editing):
 
-1. Copy this package into the web profile's `packages/`:
+```bash
+dsh plugin add github:makajo/dsh-gemini-m3e-theme     # install straight from GitHub
+dsh web                                               # restart web
+# Ctrl+F5 to hard-refresh the browser
+```
 
-   ```bash
-   mkdir -p "$DSH_HOME/profiles/web/packages"
-   cp -r dsh-gemini-m3e-theme "$DSH_HOME/profiles/web/packages/dsh-gemini-m3e-theme"
-   ```
+Update: `dsh plugin update dsh-gemini-m3e-theme`; remove:
+`dsh plugin remove dsh-gemini-m3e-theme`.
 
-2. Register it in `$DSH_HOME/profiles/web/package.json` (create the file if the
-   profile has no package.json yet):
+> **Mainland-China network**: direct GitHub access is often reset — point git at
+> a proxy (one-shot or persistent in `~/.gitconfig`):
+> ```bash
+> git -c http.proxy=http://127.0.0.1:7890 clone ...    # or
+> git config --global http.proxy http://127.0.0.1:7890
+> ```
 
-   ```jsonc
-   {
-     "dependencies": {
-       "dsh-gemini-m3e-theme": "file:./packages/dsh-gemini-m3e-theme"
-     },
-     "dsh": {
-       "profile": {
-         "bundles": ["dsh-gemini-m3e-theme"]
-       }
-     }
-   }
-   ```
+### Offline / manual install (fallback)
 
-3. Install the dependency and restart the web deployment:
-
-   ```bash
-   cd "$DSH_HOME/profiles/web"
-   pnpm install        # or npm/yarn install
-   dsh web             # restart; the theme loads on the next page refresh
-   ```
-
-4. Hard-refresh the web UI (**Ctrl+F5**). You should see the Gemini palette and
-   the restyled menus, bubbles and composer.
+Without pnpm, or for full manual control, install the old way: place this
+package in the profile's `packages/`, add both the `dependencies` entry and the
+`dsh.profile.bundles` entry in `$DSH_HOME/profiles/web/package.json`, run
+`pnpm install`, then restart. `lib/client.js` in the repo is the built
+artifact, so no build step is needed.
 
 ### Live-edit shortcut (Windows junction)
 
-`pnpm` copies `file:` deps instead of linking them, so edits to `packages/`
-would not propagate to `node_modules`. On Windows you can replace the installed
-copy with a directory junction so source edits apply directly:
+`pnpm` copies deps instead of linking them, so edits to local source do not
+propagate to `node_modules`. On Windows you can replace the installed copy with
+a directory junction so source edits apply directly:
 
 ```powershell
 Remove-Item "$env:DSH_HOME\profiles\web\node_modules\dsh-gemini-m3e-theme" -Recurse -Force

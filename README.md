@@ -41,45 +41,36 @@ bundle 通过 Harness 的两条官方扩展通道工作：
 
 ## 安装
 
-主题是一个 **web-profile bundle**。设 `DSH_HOME`（Linux/macOS 默认 `~/.dsh`，
-Windows 默认 `C:\Users\<你>\.dsh`）：
+主题是一个 **web-profile bundle**，通过 DSH 内置的 `dsh plugin` 命令安装
+（需要 Node ≥ 20 与 pnpm；它会自动初始化 profile、安装依赖并**自动把本包登记进
+`dsh.profile.bundles` 层列表**，无需手改任何 JSON）。
 
-1. 把本包复制到 web profile 的 `packages/`：
+```bash
+dsh plugin add github:makajo/dsh-gemini-m3e-theme     # 从 GitHub 直接安装
+dsh web                                               # 重启 web
+# Ctrl+F5 硬刷新浏览器
+```
 
-   ```bash
-   mkdir -p "$DSH_HOME/profiles/web/packages"
-   cp -r dsh-gemini-m3e-theme "$DSH_HOME/profiles/web/packages/dsh-gemini-m3e-theme"
-   ```
+升级：`dsh plugin update dsh-gemini-m3e-theme`；卸载：`dsh plugin remove dsh-gemini-m3e-theme`。
 
-2. 在 `$DSH_HOME/profiles/web/package.json` 里注册（若 profile 尚无此文件则新建）：
+> **中国大陆网络**：直连 GitHub 常被重置，给 git 配一条代理即可（一次性或写进
+> `~/.gitconfig`）：
+> ```bash
+> git -c http.proxy=http://127.0.0.1:7890 clone ...    # 或在 gitconfig 里
+> git config --global http.proxy http://127.0.0.1:7890
+> ```
 
-   ```jsonc
-   {
-     "dependencies": {
-       "dsh-gemini-m3e-theme": "file:./packages/dsh-gemini-m3e-theme"
-     },
-     "dsh": {
-       "profile": {
-         "bundles": ["dsh-gemini-m3e-theme"]
-       }
-     }
-   }
-   ```
+### 离线/手动安装（fallback）
 
-3. 安装依赖并重启 web 部署：
-
-   ```bash
-   cd "$DSH_HOME/profiles/web"
-   pnpm install        # 或 npm / yarn install
-   dsh web             # 重启；下次刷新页面时主题加载
-   ```
-
-4. 硬刷新 Web UI（**Ctrl+F5**）。应能看到 Gemini 配色与改版后的菜单、气泡和输入卡片。
+没有 pnpm 或想完全手动时，仍可按旧方式装配：把本包放进 profile 的
+`packages/`，然后在 `$DSH_HOME/profiles/web/package.json` 同时写入
+`dependencies` 与 `dsh.profile.bundles` 两处，再 `pnpm install` 并重启。
+仓库中 `lib/client.js` 已是构建产物，此方式无需任何构建。
 
 ### 实时改源码技巧（Windows 目录联接）
 
-`pnpm` 对 `file:` 依赖是**拷贝**而非链接，改 `packages/` 源文件不会同步到
-`node_modules`。Windows 上可把已安装的副本换成目录联接（Junction），源文件改动即可直接生效：
+`pnpm` 对依赖是**拷贝**而非链接，改本地源码不会同步到 `node_modules`。
+Windows 上可把已安装的副本换成目录联接（Junction），源文件改动即可直接生效：
 
 ```powershell
 Remove-Item "$env:DSH_HOME\profiles\web\node_modules\dsh-gemini-m3e-theme" -Recurse -Force
