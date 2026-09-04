@@ -25,20 +25,18 @@ const T = {
   STD: 'cubic-bezier(.2,0,0,1)', // standard motion: hover bg, fades
 
   /* conversation surface */
-  heroGlow: 'wSkVaW_heroGlow',
   headline: 'pXSMma_headline',
   convHeader: 'wSkVaW_header',
-  bubble: 'gdEzaW_bubble',
-  callRow: 'Md3f7G_callRow',
-  markdown: 'markdown_1r4m5',
+  bubble: 'Sixlwa_bubble',
+  callRow: 'EvIC1a_callRow',
+  markdown: '_markdown_177e0',
 
   /* composer */
   composer: 'uV2eYG_card',
   composerWs: 'uV2eYG_cardWorkspaceTrigger',
   composerHero: 'uV2eYG_hero',
-  composerMirror: 'uV2eYG_mirror',
   composerInput: 'uV2eYG_input',
-  composerBackdrop: 'uV2eYG_backdrop',
+  composerPlaceholder: 'uV2eYG_placeholder',
   composerAccessory: 'uV2eYG_accessory',
   composerRow: 'uV2eYG_row',
   composerSend: 'uV2eYG_primary',
@@ -49,7 +47,7 @@ const T = {
   sessionRow: 'YDXeBa_sessionRow',
   projectRow: 'YDXeBa_projectRow',
   searchRow: 'YDXeBa_searchResultRow',
-  wsSection: 'qDHVXG_sectionHeader',
+  wsSection: 'bhn1Oq_sectionHeader',
 
   /* model selection */
   modelMenu: '_7KE1Ra_menu',
@@ -87,16 +85,16 @@ const T = {
   cmdSearch: 'mufS8W_search',
 
   /* shell primitives (dist build: _name_hash_index format) */
-  primList: '_list_19372',
-  primSub: '_submenu_19372',
-  primCompact: '_compactList_19372',
-  primItem: '_item_19372',
-  primWrap: '_itemWrap_19372',
-  primLabel: '_label_19372',
-  primViewport: '_viewport_19372',
-  primScrollable: '_scrollable_19372',
-  button: '_button_kz6gm',
-  dialog: '_dialog_15u5s',
+  primList: '_list_1aoad',
+  primSub: '_submenu_1aoad',
+  primCompact: '_compactList_1aoad',
+  primItem: '_item_1aoad',
+  primWrap: '_itemWrap_1aoad',
+  primLabel: '_label_1aoad',
+  primViewport: '_viewport_1aoad',
+  primScrollable: '_scrollable_1aoad',
+  button: '_button_cfgyt',
+  dialog: '_dialog_w1urq',
 
   /* settings + appearance */
   settingsPanel: 'VOzbGW_panel',
@@ -136,17 +134,15 @@ function sbRule(pseudo, body) {
 }
 
 const CSS_TEXT = [
-  /* ---- A. hero glow + headline ---- */
-  "body [class*=\"@heroGlow@\"]{filter:blur(90px);border-radius:9999px;background:radial-gradient(ellipse 100% 100% at center 8%,#fdfcfc 0,#9dd2ff 50%)}",
-  "body [class*=\"@heroGlow@\"] > *{display:none}",
-  "body[data-ds-dark-theme] [class*=\"@heroGlow@\"]{background:radial-gradient(ellipse 100% 100% at center 8%,#131314 0,#14204f 50%)}",
+  /* ---- A. headline ---- */
   "body [class*=\"@headline@\"]{font-size:clamp(30px,3.4vw,44px);font-weight:400;letter-spacing:.2px}",
   /* ---- B. composer ---- */
   "body [class*=\"@composer@\"]{border-radius:40px;border:none !important;box-shadow:@SHADOW@ !important;padding-top:14px;gap:16px}",
   "body[data-ds-dark-theme] [class*=\"@composer@\"]{border:none !important}",
   "body [class*=\"@composerWs@\"]:after{border-radius:40px}",
-  "body [class*=\"@composerHero@\"] [class*=\"@composerMirror@\"], body [class*=\"@composerHero@\"] [class*=\"@composerInput@\"]{min-height:64px}",
-  "body [class*=\"@composerInput@\"],body [class*=\"@composerMirror@\"],body [class*=\"@composerBackdrop@\"]{padding:6px 24px 0 24px !important}",
+  "body [class*=\"@composerHero@\"] [class*=\"@composerInput@\"]{min-height:64px}",
+  "body [class*=\"@composerInput@\"]{padding:6px 24px 0 24px !important}",
+  "body [class*=\"@composerPlaceholder@\"]{inset:6px 24px auto 24px !important}",
   "body [class*=\"@composerAccessory@\"]{padding:12px 24px 0 !important}",
   "body [class*=\"@composerRow@\"]{padding:6px 24px 14px !important}",
   /* ---- C. dividers ---- */
